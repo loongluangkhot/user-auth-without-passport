@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content
+
+    div.ui.container
+    
+        div.ui.segment
+            p.ui.header Log In
+                form.ui.form(action='/login' method='POST')
+                    div.field
+                        input(type='text' placeholder='Username' name='user[username]' required)
+                    div.field
+                        input(type='password' placeholder='Password' name='user[password]' required)
+                    button.ui.large.primary.button(type='submit') Submit
