@@ -48,6 +48,8 @@ app.use(function(req, res, next) {
   });
 });
 
+// MIDDLEWARE FOR CSRF PROTECTION
+app.use(csurf());
 
 // SET UP DB
 mongoose.connect('mongodb://localhost:27017/user_auth_no_passport', { useNewUrlParser: true });
