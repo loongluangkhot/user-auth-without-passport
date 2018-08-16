@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const sessions = require('client-sessions');
 const bcrypt = require('bcryptjs');
+const csurf = require('csurf');
 const User = require('./models/user');
 
 
@@ -51,16 +52,19 @@ app.use(function(req, res, next) {
 // SET UP DB
 mongoose.connect('mongodb://localhost:27017/user_auth_no_passport', { useNewUrlParser: true });
 
-
+// ==================================
 // ROUTING
+//===================================
+
+// INDEX
 app.get('/', function(req, res) {
     res.render('index', {title: 'Home'});
 });
 
+// REGISTER
 app.get('/register', function(req, res) {
-    res.render('register', {title: 'Register'}); 
+    res.render('register', {title: 'Register', csrfToken: req.csrfToken()}); 
 });
-
 
 app.post('/register', function(req, res) {
     let hash = bcrypt.hashSync(req.body.user.password, 14);
@@ -77,6 +81,7 @@ app.post('/register', function(req, res) {
     });
 });
 
+// LOGIN
 app.get('/login', function(req, res) {
     if(req.user) {
         res.redirect('/secret');
@@ -99,6 +104,7 @@ app.post('/login', function(req, res) {
     });
 });
 
+// LOGOUT
 app.get('/logout', function (req, res) {
     if(!req.session) {
         res.send(`Sorry! You've not logged in!`);
@@ -109,7 +115,7 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/secret', loginRequired, function(req, res) {
-    res.render('secret', {title: 'Secret'}); 
+    res.render('secret', {title: 'Secret', csrfToken: req.csrfToken()}); 
 });
 
 

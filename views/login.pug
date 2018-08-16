@@ -11,4 +11,8 @@ block content
                         input(type='text' placeholder='Username' name='user[username]' required)
                     div.field
                         input(type='password' placeholder='Password' name='user[password]' required)
+                        
+                    // for CSRF protection
+                    input(type="hidden", name="_csrf", value=csrfToken)
+                    
                     button.ui.large.primary.button(type='submit') Submit
